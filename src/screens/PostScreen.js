@@ -5,18 +5,22 @@ import {THEME} from '../theme'
 import {Item, HeaderButtons} from 'react-navigation-header-buttons'
 import {AppHeaderIcon} from '../components/AppHeaderIcon'
 import {useDispatch, useSelector} from 'react-redux'
-import { toggleBooked } from '../store/actions/post'
+import { toggleBooked, removePost } from '../store/actions/post'
 
 export const PostScreen = ({navigation}) => {
     const dispatch = useDispatch()
 
     const postId = navigation.getParam('postId')
-    const post = DATA.find(p => p.id === postId)
+    const post = useSelector(state =>
+        state.post.allPosts.find(p => p.id === postId)
+    )
 
-    const booked = useSelector(state => state.post.bookedPosts.some(post => post.id == postId))
-
+    const booked = useSelector(state =>
+        state.post.bookedPosts.some(post => post.id === postId)
+    )
+    
     useEffect(() => {
-        navigation.setParams([booked])
+        navigation.setParams({booked})
     }, [booked])
 
     const toggleHandler = useCallback(() => {
@@ -39,10 +43,17 @@ export const PostScreen = ({navigation}) => {
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel"
               },
-              { text: "Yes", onPress: () => console.log("OK Pressed") }
+              { text: "Yes", onPress: () => {
+                  navigation.navigate('Main')
+                  dispatch(removePost(postId))
+              } }
             ],
             { cancelable: false }
           );
+    }
+
+    if(!post){
+        return null
     }
     return (
         <ScrollView>
@@ -58,9 +69,11 @@ export const PostScreen = ({navigation}) => {
 
 PostScreen.navigationOptions = ({navigation}) => {
     const postId = navigation.getParam('postId')
-    const post = DATA.find(p => p.id === postId)
+    const booked = navigation.getParam('booked')
     const toggleHandler = navigation.getParam('toggleHandler')
-    let iconName = (post.booked)? 'ios-star' : 'ios-star-outline'
+    let iconName = (booked)? 'ios-star' : 'ios-star-outline'
+    // let iconName = 'ios-star-outline'
+
 
     return {
         headerTitle: 'Post ' + postId,
