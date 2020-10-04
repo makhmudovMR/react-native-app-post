@@ -3,17 +3,16 @@ import {View, Text, StyleSheet} from 'react-native'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 import {AppHeaderIcon} from '../components/AppHeaderIcon'
 
-export const AboutScreen = ({}) => {
+export const CreateScreen = ({}) => {
     return (
-        <View style={styles.center}>
-            <Text>This application just practice</Text>
-            <Text>Version 1.0.0</Text>
+        <View  style={styles.center}>
+            <Text>Create Screen</Text>
         </View>
     )
 }
 
-AboutScreen.navigationOptions = ({navigation}) => ({
-    headerTitle: 'About',
+CreateScreen.navigationOptions = ({navigation}) => ({
+    headerTitle: 'Create',
     headerRight:(<HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
         <Item 
         title="Take photo" 
@@ -30,9 +29,9 @@ AboutScreen.navigationOptions = ({navigation}) => ({
 })
 
 const styles = StyleSheet.create({
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+    center:{
+        flex:1, 
+        justifyContent:'center',
+        alignItems:'center',
     }
 })
