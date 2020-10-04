@@ -9,9 +9,8 @@ import {
 } from 'react-native'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 import {AppHeaderIcon} from '../components/AppHeaderIcon'
+import { useSelector } from 'react-redux'
 
-
-import {DATA} from '../data'
 import {Post} from '../components/Post'
 
 export const BookedScreen = ({navigation}) => {
@@ -19,10 +18,12 @@ export const BookedScreen = ({navigation}) => {
         navigation.navigate('Post', {postId:post.id})
     }
 
+    const allBooked = useSelector(state => state.post.bookedPosts)
+
     return (
         <View style={styles.center}>
             <FlatList 
-            data={DATA.filter(item => item.booked)} 
+            data={allBooked} 
             keyExtractor={post => post.id.toString()}
             renderItem={(obj) => {
                 console.log(obj)
